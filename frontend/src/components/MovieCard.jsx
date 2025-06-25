@@ -1,4 +1,5 @@
 import "../css/MovieCard.css"
+import { useMovieContext } from "../contexts/MovieContext";
 function MovieCard({ movie }) {
 const info = movie.volumeInfo;
 
@@ -7,15 +8,19 @@ const info = movie.volumeInfo;
     const publishedDate = info.publishedDate || "No date";
     const thumbnail = info.imageLinks?.thumbnail || "https://via.placeholder.com/128x193.png?text=No+Cover";
 
+    const {isFavourite, addToFavourites, removeFromFavourites} = useMovieContext()
+    const favourite = isFavourite(movie.id)
 
     function onFavouriteClick(){
-        alert("clicked")
+        e.preventDefault()
+        if (favourite) removeFromFavourites(movie.id)
+            else addToFavourites(movie)
     }
     return <div className="movie-card">
         <div className="movie-poster">
             <img src={thumbnail} alt={title}/>
             <div className="movie-overlay">
-                <button className="favourite-btn" onClick={onFavouriteClick}>   
+                <button className={`favourite-btn ${favourite ? "active" : ""}`} onClick={onFavouriteClick}>   
                     🤍
                 </button>
             </div>
