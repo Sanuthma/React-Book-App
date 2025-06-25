@@ -1,22 +1,43 @@
 import MovieCard from "../components/MovieCard";
+import {useState, useEffect} from "react"
+import { searchMovie, getPopularMovies } from "../services/api"; 
+import "../css/Home.css"
 function Home(){
-    const movies = [
-        {id: 1, title: "John Wick", release_date: "2020"},
-        {id: 2, title: "Wick", release_date: "2020"},
-        {id: 3, title: "hn", release_date: "2020"},
-        {id: 4, title: "Jok", release_date: "2020"},
-    ];
+    const [searchQuery, setSearchQuery] = useState("");
+    const [movies, setMovies] = useState([]);
+    const [error,setError] = useState(null);
+    const [loading, setLoading] = useState(true)
 
-    const  handlesearch = () =>{
+    useEffect(() => {
+        const loadPopularMovies = async () =>{
+            try{
+                const popularMovies = await getPopularMovies()
+                setMovies(popularMovies);
+            }catch(err){
+                console.log(err)
+                setError("Failed to load movies...")
+            }
+            finally{
+                setLoading(false)
+            }
+        }
+        loadPopularMovies()
+    },[])
 
-    }
+    const  handlesearch = (e) =>{
+        e.preventDefault()
+        alert(searchQuery)
+        setSearchQuery("")
+    };
     return (
         <div className="home">
-            <form onsubmit={handlesearch} className="search-form">
+            <form onSubmit={handlesearch} className="search-form">
                 <input 
                     type="text" 
                     placeholder="Search for movies..." 
                     className="search-input"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <button 
                     type="submit" 
@@ -26,8 +47,10 @@ function Home(){
                 </button>
             </form>
             <div className="movie-grid">
-                {movies.map((movie) => (
-                    <MovieCard movie={movie} key={movie.id}/>
+                {movies.map(
+                    (movie) => 
+                        (
+                            <MovieCard movie={movie} key={movie.id}/>
             ))}
         </div>
     </div>
