@@ -30,7 +30,7 @@
 
 .search-button {
   padding: 0.75rem 1.5rem;
-  background-color: #e50914;
+  background-color: #d8141e;
   color: white;
   border-radius: 4px;
   font-weight: 500;
@@ -39,7 +39,7 @@
 }
 
 .search-button:hover {
-  background-color: #f40612;
+  background-color: #c10912;
 }
 
 
@@ -53,11 +53,32 @@
   }
 }
 
-.movies-grid {
+.books-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   padding: 1rem;
   width: 100%;
   box-sizing: border-box;
+  grid-template-columns: 1fr; /* Mobile: 1 column */
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 640px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Small desktop: 3 columns */
+@media (min-width: 1024px) {
+  .books-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Large desktop/full screen: 4 columns */
+@media (min-width: 1280px) {
+  .books-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
